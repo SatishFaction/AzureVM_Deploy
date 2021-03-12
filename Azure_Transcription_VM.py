@@ -1,44 +1,8 @@
-# importing the header lines
-import moviepy.editor as mp
-import os
-import glob
-
-# declaring the path of the dataset
-path = os.path.join(r"C:\Users\hp\Desktop\VM\Video")
-
-# list to store names of files that cannot be converted
-not_completed = []
-
-# operating over all files in the selected folder
-for filename in glob.glob(os.path.join(path, "*")):
-    try:
-        # if the file has video, it gets converted to audio only
-        clip = mp.VideoFileClip(filename)
-        clip.audio.write_audiofile(os.path.join(r"C:\Users\hp\Desktop\VM\Audio", filename.split("\\")[-1] + "_audio.wav"), 
-                                   codec='pcm_s16le', verbose=False)
-    except:
-        try:
-            # if the file had no video, it is checked if it has audio and extracts audio
-            clip = mp.AudioFileClip(filename)
-            clip.write_audiofile(os.path.join(r"C:\Users\hp\Desktop\VM\Audio", filename.split("\\")[-1].split('.')[0] + "_audio.wav"), 
-                                       codec='pcm_s16le', verbose=False)
-        except:
-            # save the names of files that cannot be converted
-            print("File not converted to audio...", filename)
-            not_completed.append(filename)
-            f = open("not_completed_vid2aud.txt", "a")
-            f.write(filename + "\n")
-            f.close()
-
-# indicate the end of the code and print filenames that gave problems
-print("All files done.")
-print("FILES NOT CONVERTED ARE...", not_completed)
-
 import azure.cognitiveservices.speech as speechsdk
 import time
 import datetime
 import os
-os.chdir(r'C:\Users\hp\Desktop\Azure Transcriptions\English_Audio_Wav')
+os.chdir('/home/ubsuser/Satish/Azure/Audio_Files')
 def speech_to_text(f):
     
     # Creates an instance of a speech config with specified subscription key and service region.
@@ -101,10 +65,10 @@ def speech_to_text(f):
 
 #calling the conversion through a function
 import pandas as pd
-filenames = pd.read_csv(r"C:\\Users\\hp\\Desktop\\Azure Transcriptions\\names.csv")
+filenames = pd.read_csv("C/home/ubsuser/Satish/Azure/Audio_Files/names.csv")
 df = pd.DataFrame(columns = ['Filename', 'Transcript'])
 
-for f in os.listdir(r"C:\Users\hp\Desktop\Azure Transcriptions\English_Audio_Wav"):
+for f in os.listdir("/home/ubsuser/Satish/Azure/Audio_Files"):
     if f in filenames['Name'].tolist():
         result=speech_to_text(f)
         string=""

@@ -14,7 +14,7 @@ for filename in glob.glob(os.path.join(path, "*")):
     try:
         # if the file has video, it gets converted to audio only
         clip = mp.VideoFileClip(filename)
-        clip.audio.write_audiofile(os.path.join(r"C:\Users\hp\Desktop\VM\Audio", filename.split("\\")[-1] + "_audio.wav"), 
+        clip.audio.write_audiofile(os.path.join(r"C:\Users\hp\Desktop\VM\Audio", filename.split("\\")[-1].split('.')[0] + "_audio.wav"), 
                                    codec='pcm_s16le', verbose=False)
     except:
         try:
